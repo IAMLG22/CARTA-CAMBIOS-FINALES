@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:#0E0C0A;color:#F2E9D8;font-family:'Manrope',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:#D9A24E;color:#0E0C0A}
+  @keyframes mc-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @keyframes mc-flicker{0%,19%,21%,23%,25%,54%,56%,100%{opacity:1;text-shadow:0 0 8px rgba(233,185,104,.75),0 0 22px rgba(255,157,46,.55),0 0 46px rgba(255,157,46,.35)}20%,24%,55%{opacity:.72;text-shadow:none}}
+  @keyframes mc-bob{0%,100%{transform:translateY(0);opacity:.55}50%{transform:translateY(9px);opacity:1}}
+  @keyframes mc-pulse{0%,100%{opacity:.5}50%{opacity:1}}
+  @keyframes mc-spin{to{transform:rotate(360deg)}}
+  @keyframes mc-menu-in{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+  /* Hide horizontal scrollbar on the mobile tab rail */
+  .mc-tabs{scrollbar-width:none}
+  .mc-tabs::-webkit-scrollbar{display:none}
+  /* ===== Tablet / mobile ===== */
+  @media (max-width:900px){
+    .mc-navlinks{display:none!important}
+    .mc-phone{display:none!important}
+    .mc-burger{display:inline-flex!important}
+    .mc-tabs{flex-wrap:nowrap!important;justify-content:flex-start!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;padding-left:4px!important;padding-right:4px!important}
+    .mc-tabs>button{flex:0 0 auto!important;scroll-snap-align:start}
+  }
+  /* ===== Phones ===== */
+  @media (max-width:640px){
+    .mc-hero-h1{font-size:3rem!important;line-height:1.06!important}
+    .mc-hero-sec{min-height:88vh!important;padding-top:110px!important}
+    .mc-hero-btns{flex-direction:column!important;align-items:stretch!important;gap:12px!important}
+    .mc-btn{width:100%!important;justify-content:center!important}
+    .mc-stats{display:grid!important;grid-template-columns:1fr 1fr!important;gap:12px!important}
+    .mc-menu-grid{grid-template-columns:1fr!important;gap:0!important}
+    .mc-gallery{grid-template-columns:1fr 1fr!important;grid-auto-rows:150px!important}
+    .mc-gallery>div{grid-column:auto!important;grid-row:auto!important}
+    .mc-gallery>div:first-child{grid-column:1 / -1!important;grid-row:auto!important;aspect-ratio:16/10}
+  }
+  @media (max-width:400px){
+    .mc-hero-h1{font-size:2.5rem!important}
+  }
+</style>
+</helmet>
+
+<div ref="{{ rootRef }}" id="top" style="position:relative;width:100%;overflow:hidden">
+
+  <!-- GRAIN OVERLAY -->
+  <div style="position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.045;mix-blend-mode:overlay;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%222%22/></filter><rect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/></svg>')"></div>
+
+  <!-- NAV -->
+  <nav data-nav style="position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:20px clamp(20px,5vw,64px);transition:background .5s ease,padding .5s ease,border-color .5s ease;border-bottom:1px solid transparent">
+    <a href="#top" style="display:flex;align-items:center;gap:12px;text-decoration:none">
+      <img src="images/logo-cream.png" alt="Matacopas" style="height:38px;width:auto;display:block">
+    </a>
+    <div data-navlinks class="mc-navlinks" style="display:flex;align-items:center;gap:clamp(18px,2.4vw,38px)">
+      <a href="#carta" style="color:#EDE3D0;text-decoration:none;font-size:.82rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;opacity:.82;transition:opacity .3s" style-hover="opacity:1">Carta</a>
+      <a href="#nosotros" style="color:#EDE3D0;text-decoration:none;font-size:.82rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;opacity:.82;transition:opacity .3s" style-hover="opacity:1">Nosotros</a>
+      <a href="#galeria" style="color:#EDE3D0;text-decoration:none;font-size:.82rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;opacity:.82;transition:opacity .3s" style-hover="opacity:1">Galería</a>
+      <a href="#contacto" style="color:#EDE3D0;text-decoration:none;font-size:.82rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;opacity:.82;transition:opacity .3s" style-hover="opacity:1">Contacto</a>
+    </div>
+    <a href="tel:+34663959442" class="mc-phone" style="display:inline-flex;align-items:center;gap:9px;padding:11px 20px;border:1px solid rgba(217,162,78,.55);border-radius:999px;color:#E9B968;text-decoration:none;font-size:.78rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;transition:background .35s,color .35s" style-hover="background:#D9A24E;color:#0E0C0A">
+      <span style="width:6px;height:6px;border-radius:50%;background:#E9B968;box-shadow:0 0 8px #E9B968"></span>663 95 94 42
+    </a>
+    <button data-burger aria-label="Abrir menú" class="mc-burger" style="display:none;align-items:center;justify-content:center;width:46px;height:46px;padding:0;border:1px solid rgba(242,233,216,.28);border-radius:12px;background:rgba(14,12,10,.4);cursor:pointer">
+      <span data-burger-icon style="position:relative;display:block;width:20px;height:14px">
+        <span style="position:absolute;left:0;top:0;width:100%;height:2px;border-radius:2px;background:#F2E9D8;transition:transform .35s,top .35s,opacity .2s"></span>
+        <span style="position:absolute;left:0;top:6px;width:100%;height:2px;border-radius:2px;background:#F2E9D8;transition:opacity .2s"></span>
+        <span style="position:absolute;left:0;top:12px;width:100%;height:2px;border-radius:2px;background:#F2E9D8;transition:transform .35s,top .35s,opacity .2s"></span>
+      </span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div data-mobile-menu style="position:fixed;inset:0;z-index:49;display:none;flex-direction:column;padding:96px clamp(24px,7vw,48px) 40px;background:rgba(11,9,8,.97);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)">
+    <a href="#carta" data-mm-link style="display:block;padding:20px 0;border-bottom:1px solid rgba(242,233,216,.1);color:#F6EEDE;text-decoration:none;font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:500">Carta</a>
+    <a href="#nosotros" data-mm-link style="display:block;padding:20px 0;border-bottom:1px solid rgba(242,233,216,.1);color:#F6EEDE;text-decoration:none;font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:500">Nosotros</a>
+    <a href="#galeria" data-mm-link style="display:block;padding:20px 0;border-bottom:1px solid rgba(242,233,216,.1);color:#F6EEDE;text-decoration:none;font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:500">Galería</a>
+    <a href="#contacto" data-mm-link style="display:block;padding:20px 0;border-bottom:1px solid rgba(242,233,216,.1);color:#F6EEDE;text-decoration:none;font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:500">Contacto</a>
+    <a href="tel:+34663959442" data-mm-link style="margin-top:34px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:18px 24px;background:#D9A24E;color:#0E0C0A;text-decoration:none;font-weight:700;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase;border-radius:999px">Llamar · 663 95 94 42</a>
+    <a href="https://www.instagram.com/matacopas.teatinos/" target="_blank" rel="noopener" data-mm-link style="margin-top:16px;text-align:center;color:#A99F8E;text-decoration:none;font-size:.85rem;letter-spacing:.14em;text-transform:uppercase">@matacopas.teatinos</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="mc-hero-sec" style="position:relative;min-height:100vh;display:flex;align-items:center;padding:120px clamp(20px,5vw,64px) 90px">
+    <div data-hero-bg style="position:absolute;inset:-12% 0 0;background:url('images/hero.jpg') center 40%/cover no-repeat;will-change:transform;z-index:0"></div>
+    <div style="position:absolute;inset:0;z-index:1;background:rgba(8,7,5,.56)"></div>
+    <div style="position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(8,7,5,.66) 0%,rgba(8,7,5,.28) 55%,rgba(8,7,5,.12) 100%)"></div>
+    <div style="position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,#0E0C0A 2%,rgba(14,12,10,0) 34%,rgba(14,12,10,0) 62%,rgba(14,12,10,.45) 100%)"></div>
+    <div style="position:absolute;left:-8%;bottom:-10%;width:60vw;height:60vw;max-width:820px;max-height:820px;z-index:1;background:radial-gradient(circle,rgba(255,157,46,.20),rgba(255,157,46,0) 62%);pointer-events:none"></div>
+
+    <div style="position:relative;z-index:2;max-width:920px">
+      <div data-reveal data-delay="0" style="opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.16,.8,.3,1),transform 1s cubic-bezier(.16,.8,.3,1);display:flex;align-items:center;gap:14px;margin-bottom:26px">
+        <span style="width:44px;height:1px;background:#D9A24E"></span>
+        <span style="font-size:.74rem;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:#D9A24E">Coctelería · Copas · Teatinos, Málaga</span>
+      </div>
+      <h1 data-reveal data-delay="120" style="opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.16,.8,.3,1),transform 1s cubic-bezier(.16,.8,.3,1);margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(3.1rem,8.4vw,7rem);line-height:.98;letter-spacing:-.01em;color:#F6EEDE" class="mc-hero-h1">El arte de tomar<br>una <span data-neon style="font-style:italic;color:#E9B968;animation:mc-flicker 6s infinite">buena copa</span>.</h1>
+      <p data-reveal data-delay="240" style="opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.16,.8,.3,1),transform 1s cubic-bezier(.16,.8,.3,1);max-width:540px;margin:30px 0 0;font-size:clamp(1rem,1.5vw,1.18rem);line-height:1.65;color:#C9BFAD;font-weight:300">Coctelería de autor, cervezas del mundo y más de 200 destilados premium. Ambiente con alma rockera en el corazón de Teatinos.</p>
+      <div data-reveal data-delay="360" class="mc-hero-btns" style="opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.16,.8,.3,1),transform 1s cubic-bezier(.16,.8,.3,1);display:flex;flex-wrap:wrap;gap:16px;margin-top:42px">
+        <a href="#carta" class="mc-btn" style="display:inline-flex;align-items:center;gap:10px;padding:17px 34px;background:#D9A24E;color:#0E0C0A;text-decoration:none;font-weight:700;font-size:.86rem;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;transition:transform .35s,box-shadow .35s;box-shadow:0 10px 40px rgba(217,162,78,.28)" style-hover="transform:translateY(-3px);box-shadow:0 16px 50px rgba(217,162,78,.42)">Ver la carta →</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=Calle+Pirandello+16+29010+Malaga" target="_blank" rel="noopener" class="mc-btn" style="display:inline-flex;align-items:center;gap:10px;padding:17px 34px;border:1px solid rgba(242,233,216,.28);color:#F2E9D8;text-decoration:none;font-weight:600;font-size:.86rem;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;transition:border-color .35s,background .35s" style-hover="border-color:rgba(242,233,216,.6);background:rgba(242,233,216,.05)">Cómo llegar</a>
+      </div>
+    </div>
+
+    <div style="position:absolute;bottom:34px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:9px">
+      <span style="font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(201,191,173,.6)">Desliza</span>
+      <span style="width:1px;height:34px;background:linear-gradient(#D9A24E,rgba(217,162,78,0));animation:mc-bob 2.4s ease-in-out infinite"></span>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div style="position:relative;z-index:2;border-top:1px solid rgba(242,233,216,.1);border-bottom:1px solid rgba(242,233,216,.1);background:#100D0A;padding:22px 0;overflow:hidden;white-space:nowrap">
+    <div style="display:inline-flex;gap:0;animation:mc-marquee 34s linear infinite;will-change:transform">
+      <span data-marq style="display:inline-flex;align-items:center">MOJITOS DE AUTOR<span style="margin:0 30px;color:#D9A24E">✦</span>RON PREMIUM<span style="margin:0 30px;color:#D9A24E">✦</span>CERVEZAS DEL MUNDO<span style="margin:0 30px;color:#D9A24E">✦</span>GINEBRAS SELECTAS<span style="margin:0 30px;color:#D9A24E">✦</span>WHISKY &amp; BRANDY<span style="margin:0 30px;color:#D9A24E">✦</span>COCTELERÍA<span style="margin:0 30px;color:#D9A24E">✦</span></span>
+      <span aria-hidden="true" style="display:inline-flex;align-items:center">MOJITOS DE AUTOR<span style="margin:0 30px;color:#D9A24E">✦</span>RON PREMIUM<span style="margin:0 30px;color:#D9A24E">✦</span>CERVEZAS DEL MUNDO<span style="margin:0 30px;color:#D9A24E">✦</span>GINEBRAS SELECTAS<span style="margin:0 30px;color:#D9A24E">✦</span>WHISKY &amp; BRANDY<span style="margin:0 30px;color:#D9A24E">✦</span>COCTELERÍA<span style="margin:0 30px;color:#D9A24E">✦</span></span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="nosotros" style="position:relative;padding:clamp(80px,11vw,150px) clamp(20px,5vw,64px);max-width:1240px;margin:0 auto">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(40px,6vw,90px);align-items:center">
+      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.16,.8,.3,1),transform 1s cubic-bezier(.16,.8,.3,1)">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px">
+          <span style="width:34px;height:1px;background:#D9A24E"></span>
+          <span style="font-size:.72rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:#D9A24E">Nosotros</span>
+        </div>
+        <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(2.2rem,4.6vw,3.7rem);line-height:1.04;color:#F6EEDE">Un rincón con alma<br>rockera en Teatinos</h2>
+        <p style="margin:28px 0 0;font-size:1.05rem;line-height:1.75;color:#C4BAA8;font-weight:300">Paredes en azul petróleo, madera cálida, plantas y el neón dorado de Matacopas presidiendo la sala. En Matacopas mezclamos coctelería cuidada, una selección infinita de rones y ginebras y las mejores cervezas del mundo, con la buena música siempre de fondo.</p>
+        <p style="margin:18px 0 0;font-size:1.05rem;line-height:1.75;color:#C4BAA8;font-weight:300">Un lugar pensado para alargar la noche, copa a copa, entre amigos.</p>
+        <div class="mc-stats" style="display:flex;flex-wrap:wrap;gap:14px;margin-top:40px">
+          <div style="flex:1;min-width:120px;padding:24px 20px;border:1px solid rgba(242,233,216,.1);border-radius:14px;background:linear-gradient(160deg,rgba(217,162,78,.06),rgba(217,162,78,0))">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:2.6rem;line-height:1;color:#E9B968">+200</div>
+            <div style="margin-top:8px;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:#A99F8E">Destilados</div>
+          </div>
+          <div style="flex:1;min-width:120px;padding:24px 20px;border:1px solid rgba(242,233,216,.1);border-radius:14px;background:linear-gradient(160deg,rgba(217,162,78,.06),rgba(217,162,78,0))">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:2.6rem;line-height:1;color:#E9B968">30+</div>
+            <div style="margin-top:8px;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:#A99F8E">Cervezas</div>
+          </div>
+          <div style="flex:1;min-width:120px;padding:24px 20px;border:1px solid rgba(242,233,216,.1);border-radius:14px;background:linear-gradient(160deg,rgba(217,162,78,.06),rgba(217,162,78,0))">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:2.6rem;line-height:1;color:#E9B968">20</div>
+            <div style="margin-top:8px;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:#A99F8E">Cócteles</div>
+          </div>
+        </div>
+      </div>
+      <div data-reveal data-delay="140" style="opacity:0;transform:translateY(28px);transition:opacity 1.1s cubic-bezier(.16,.8,.3,1),transform 1.1s cubic-bezier(.16,.8,.3,1);position:relative">
+        <div style="position:relative;border-radius:18px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 30px 80px rgba(0,0,0,.5)">
+          <img src="images/beers-neon.jpg" alt="Barra de Matacopas" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(14,12,10,.5),transparent 45%)"></div>
+        </div>
+        <div style="position:absolute;right:-6%;bottom:-9%;width:52%;border-radius:14px;overflow:hidden;border:6px solid #0E0C0A;box-shadow:0 24px 60px rgba(0,0,0,.6);aspect-ratio:1/1">
+          <img src="images/venue.jpg" alt="Sala de Matacopas" style="width:100%;height:100%;object-fit:cover;display:block">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURE BAND -->
+  <section style="position:relative;height:clamp(360px,52vw,560px);overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center">
+    <div data-parallax="0.28" style="position:absolute;inset:-14% 0;background:url('images/beers-bar.jpg') center/cover no-repeat;will-change:transform"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(rgba(14,12,10,.66),rgba(14,12,10,.78))"></div>
+    <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s cubic-bezier(.16,.8,.3,1),transform 1.1s cubic-bezier(.16,.8,.3,1);position:relative;z-index:2;max-width:820px;padding:0 24px">
+      <span style="font-size:.72rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:#E9B968">Cervezas del mundo</span>
+      <p style="margin:20px 0 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:clamp(1.8rem,4.4vw,3.2rem);line-height:1.18;color:#F6EEDE">“Más de treinta cervezas, tiradas y en botella, seleccionadas para acompañar cada momento de la noche.”</p>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section id="carta" style="position:relative;padding:clamp(80px,11vw,150px) clamp(20px,5vw,44px) clamp(70px,9vw,120px);max-width:1180px;margin:0 auto">
+    <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.16,.8,.3,1),transform 1s cubic-bezier(.16,.8,.3,1);text-align:center;margin-bottom:14px">
+      <div style="display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:20px">
+        <span style="width:34px;height:1px;background:#D9A24E"></span>
+        <span style="font-size:.72rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:#D9A24E">La carta</span>
+        <span style="width:34px;height:1px;background:#D9A24E"></span>
+      </div>
+      <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(2.4rem,5.4vw,4.4rem);line-height:1;color:#F6EEDE">Nuestra carta</h2>
+      <p style="margin:18px auto 0;max-width:520px;font-size:1.02rem;line-height:1.6;color:#A99F8E;font-weight:300">Elige una categoría para explorar toda nuestra selección de copas, cervezas y coctelería.</p>
+    </div>
+
+    <!-- TABS -->
+    <div data-tabs class="mc-tabs" style="position:sticky;top:70px;z-index:30;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;padding:22px 0 30px;background:linear-gradient(#0E0C0A 62%,rgba(14,12,10,0))">
+      <button data-tab="cerveza" style="cursor:pointer;padding:12px 22px;border-radius:999px;border:1px solid rgba(217,162,78,.6);background:#D9A24E;color:#0E0C0A;font-family:'Manrope',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:all .3s">Cerveza</button>
+      <button data-tab="licores" style="cursor:pointer;padding:12px 22px;border-radius:999px;border:1px solid rgba(242,233,216,.18);background:transparent;color:#C4BAA8;font-family:'Manrope',sans-serif;font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;transition:all .3s">Licores</button>
+      <button data-tab="copas" style="cursor:pointer;padding:12px 22px;border-radius:999px;border:1px solid rgba(242,233,216,.18);background:transparent;color:#C4BAA8;font-family:'Manrope',sans-serif;font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;transition:all .3s">Copas</button>
+      <button data-tab="vinos" style="cursor:pointer;padding:12px 22px;border-radius:999px;border:1px solid rgba(242,233,216,.18);background:transparent;color:#C4BAA8;font-family:'Manrope',sans-serif;font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;transition:all .3s">Vinos</button>
+      <button data-tab="cafes" style="cursor:pointer;padding:12px 22px;border-radius:999px;border:1px solid rgba(242,233,216,.18);background:transparent;color:#C4BAA8;font-family:'Manrope',sans-serif;font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;transition:all .3s">Cafés e Infusiones</button>
+      <button data-tab="picoteo" style="cursor:pointer;padding:12px 22px;border-radius:999px;border:1px solid rgba(242,233,216,.18);background:transparent;color:#C4BAA8;font-family:'Manrope',sans-serif;font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;transition:all .3s">Picoteo</button>
+    </div>
+
+    <!-- SECTIONS -->
+    <sc-for list="{{ sections }}" as="sec" hint-placeholder-count="1">
+      <div data-section="{{ sec.id }}">
+        <div style="text-align:center;margin:10px 0 44px">
+          <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:clamp(1.6rem,3vw,2.3rem);color:#E9B968">{{ sec.name }}</h3>
+          <p style="margin:6px 0 0;font-size:.76rem;letter-spacing:.18em;text-transform:uppercase;color:#8C8271">{{ sec.tagline }}</p>
+        </div>
+        <sc-for list="{{ sec.groups }}" as="grp" hint-placeholder-count="2">
+          <div style="margin-bottom:46px">
+            <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+              <span style="font-size:.78rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#D9A24E;white-space:nowrap">{{ grp.name }}</span>
+              <span style="flex:1;height:1px;background:rgba(242,233,216,.12)"></span>
+            </div>
+            <div class="mc-menu-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(410px,1fr));gap:2px 60px">
+              <sc-for list="{{ grp.items }}" as="it" hint-placeholder-count="6">
+                <div style="padding:16px 0;border-bottom:1px solid rgba(242,233,216,.08)">
+                  <div style="display:flex;align-items:baseline;gap:12px">
+                    <span style="font-size:1.08rem;font-weight:500;color:#F2E9D8;white-space:nowrap">{{ it.name }}</span>
+                    <sc-if value="{{ it.abv }}" hint-placeholder-val="{{ true }}"><span style="flex:none;padding:2px 8px;border:1px solid rgba(217,162,78,.4);border-radius:999px;font-size:.64rem;font-weight:700;letter-spacing:.04em;color:#E9B968;background:rgba(217,162,78,.08)">{{ it.abv }}</span></sc-if>
+                    <sc-if value="{{ it.single }}" hint-placeholder-val="{{ true }}"><span style="display:flex;flex:1;align-items:baseline;gap:10px;min-width:40px"><span style="flex:1;border-bottom:1px dotted rgba(242,233,216,.28);transform:translateY(-5px)"></span><span style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;color:#E9B968;white-space:nowrap">{{ it.single }}</span></span></sc-if>
+                  </div>
+                  <sc-if value="{{ it.desc }}" hint-placeholder-val="{{ true }}"><div style="margin-top:5px;font-size:.86rem;line-height:1.5;color:#9A9080;font-weight:300;max-width:52ch">{{ it.desc }}</div></sc-if>
+                  <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:10px">
+                    <sc-for list="{{ it.sizes }}" as="sz" hint-placeholder-count="0">
+                      <span style="display:inline-flex;align-items:baseline;gap:6px;padding:5px 11px;border:1px solid rgba(242,233,216,.12);border-radius:8px;background:rgba(242,233,216,.03);font-size:.75rem;color:#C4BAA8"><span style="letter-spacing:.05em">{{ sz.label }}</span><span style="font-weight:700;color:#E9B968">{{ sz.price }}</span></span>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-for>
+
+    <p style="text-align:center;margin:14px 0 0;font-size:.82rem;color:#7C7362;font-weight:300">Precios en euros (IVA incluido). Carta sujeta a disponibilidad. Bebe con moderación.</p>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="galeria" style="position:relative;padding:clamp(70px,9vw,120px) clamp(20px,5vw,64px);max-width:1320px;margin:0 auto">
+    <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.16,.8,.3,1),transform 1s cubic-bezier(.16,.8,.3,1);display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:40px">
+      <div>
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">
+          <span style="width:34px;height:1px;background:#D9A24E"></span>
+          <span style="font-size:.72rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:#D9A24E">Galería</span>
+        </div>
+        <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(2.2rem,4.6vw,3.6rem);line-height:1;color:#F6EEDE">El ambiente</h2>
+      </div>
+      <p style="max-width:340px;font-size:.95rem;line-height:1.6;color:#A99F8E;font-weight:300;margin:0">Un vistazo a la sala, la barra y nuestra selección. Toca cualquier imagen para ampliarla.</p>
+    </div>
+    <div class="mc-gallery" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));grid-auto-rows:220px;gap:14px">
+      <div data-reveal data-lightbox="images/venue.jpg" style="opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.16,.8,.3,1),transform 1s cubic-bezier(.16,.8,.3,1);grid-column:span 2;grid-row:span 2;border-radius:14px;overflow:hidden;cursor:pointer;position:relative">
+        <img src="images/venue.jpg" alt="Sala" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.16,.8,.3,1)" style-hover="transform:scale(1.06)">
+      </div>
+      <div data-reveal data-delay="80" data-lightbox="images/beers-neon.jpg" style="opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.16,.8,.3,1),transform 1s cubic-bezier(.16,.8,.3,1);border-radius:14px;overflow:hidden;cursor:pointer;position:relative">
+        <img src="images/beers-neon.jpg" alt="Cervezas" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.16,.8,.3,1)" style-hover="transform:scale(1.06)">
+      </div>
+      <div data-reveal data-delay="160" data-lightbox="images/brutus.jpg" style="opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.16,.8,.3,1),transform 1s cubic-bezier(.16,.8,.3,1);grid-row:span 2;border-radius:14px;overflow:hidden;cursor:pointer;position:relative">
+        <img src="images/brutus.jpg" alt="Brutus" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.16,.8,.3,1)" style-hover="transform:scale(1.06)">
+      </div>
+      <div data-reveal data-delay="80" data-lightbox="images/beers-bar.jpg" style="opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.16,.8,.3,1),transform 1s cubic-bezier(.16,.8,.3,1);border-radius:14px;overflow:hidden;cursor:pointer;position:relative">
+        <img src="images/beers-bar.jpg" alt="Barra" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.16,.8,.3,1)" style-hover="transform:scale(1.06)">
+      </div>
+      <div data-reveal data-delay="160" data-lightbox="images/mahou.jpg" style="opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.16,.8,.3,1),transform 1s cubic-bezier(.16,.8,.3,1);border-radius:14px;overflow:hidden;cursor:pointer;position:relative">
+        <img src="images/mahou.jpg" alt="Mahou" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.16,.8,.3,1)" style-hover="transform:scale(1.06)">
+      </div>
+      <div data-reveal data-delay="120" style="opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.16,.8,.3,1),transform 1s cubic-bezier(.16,.8,.3,1);border:1.5px dashed rgba(217,162,78,.3);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#8C8271;background:rgba(217,162,78,.03)">
+        <span style="font-size:1.6rem;color:rgba(217,162,78,.5)">+</span>
+        <span style="font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;text-align:center;padding:0 16px">Próximamente<br>nuevas fotos</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- RATING / SOCIAL PROOF -->
+  <section style="position:relative;padding:clamp(70px,9vw,120px) clamp(20px,5vw,64px);background:linear-gradient(180deg,#100D0A,#0E0C0A)">
+    <div style="max-width:1080px;margin:0 auto">
+      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.16,.8,.3,1),transform 1s cubic-bezier(.16,.8,.3,1);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(30px,5vw,70px);align-items:center">
+        <div style="text-align:center">
+          <div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(5rem,13vw,8.5rem);line-height:.9;color:#E9B968">4,8</div>
+          <div data-stars style="display:flex;justify-content:center;gap:6px;margin:14px 0 12px;color:#E9B968;font-size:1.4rem">★★★★★</div>
+          <div style="font-size:.92rem;color:#A99F8E;font-weight:300">Basado en más de <strong style="color:#F2E9D8;font-weight:600">300 reseñas</strong> de nuestros clientes</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;border:1px solid rgba(242,233,216,.1);border-radius:14px;background:rgba(242,233,216,.02)">
+            <div>
+              <div style="font-size:.95rem;font-weight:600;color:#F2E9D8">Google</div>
+              <div style="font-size:.76rem;color:#8C8271;margin-top:2px">Reseñas verificadas</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px"><span style="color:#E9B968;font-size:1rem">★★★★★</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:#E9B968">4,8</span></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;border:1px solid rgba(242,233,216,.1);border-radius:14px;background:rgba(242,233,216,.02)">
+            <div>
+              <div style="font-size:.95rem;font-weight:600;color:#F2E9D8">Ambiente &amp; música</div>
+              <div style="font-size:.76rem;color:#8C8271;margin-top:2px">Lo que más valoran</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px"><span style="color:#E9B968;font-size:1rem">★★★★★</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:#E9B968">4,9</span></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;border:1px solid rgba(242,233,216,.1);border-radius:14px;background:rgba(242,233,216,.02)">
+            <div>
+              <div style="font-size:.95rem;font-weight:600;color:#F2E9D8">Coctelería</div>
+              <div style="font-size:.76rem;color:#8C8271;margin-top:2px">Copas de autor</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px"><span style="color:#E9B968;font-size:1rem">★★★★★</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:#E9B968">4,8</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTAGRAM STRIP -->
+  <section style="position:relative;padding:clamp(60px,8vw,100px) 0;overflow:hidden">
+    <div style="text-align:center;padding:0 24px;margin-bottom:36px">
+      <a href="https://www.instagram.com/matacopas.teatinos/" target="_blank" rel="noopener" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.16,.8,.3,1),transform 1s cubic-bezier(.16,.8,.3,1);display:inline-flex;align-items:center;gap:12px;text-decoration:none">
+        <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.6rem,3.4vw,2.4rem);color:#F6EEDE">@matacopas.teatinos</span>
+      </a>
+      <p style="margin:10px 0 0;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:#8C8271">Síguenos en Instagram</p>
+    </div>
+    <div style="display:flex;gap:14px;padding:0 clamp(20px,5vw,64px);overflow-x:auto">
+      <a href="https://www.instagram.com/matacopas.teatinos/" target="_blank" rel="noopener" style="flex:none;width:230px;height:230px;border-radius:14px;overflow:hidden;position:relative;text-decoration:none"><img src="images/beers-neon.jpg" alt="" style="width:100%;height:100%;object-fit:cover;transition:transform .7s" style-hover="transform:scale(1.08)"></a>
+      <a href="https://www.instagram.com/matacopas.teatinos/" target="_blank" rel="noopener" style="flex:none;width:230px;height:230px;border-radius:14px;overflow:hidden;position:relative;text-decoration:none"><img src="images/venue.jpg" alt="" style="width:100%;height:100%;object-fit:cover;transition:transform .7s" style-hover="transform:scale(1.08)"></a>
+      <a href="https://www.instagram.com/matacopas.teatinos/" target="_blank" rel="noopener" style="flex:none;width:230px;height:230px;border-radius:14px;overflow:hidden;position:relative;text-decoration:none"><img src="images/brutus.jpg" alt="" style="width:100%;height:100%;object-fit:cover;transition:transform .7s" style-hover="transform:scale(1.08)"></a>
+      <a href="https://www.instagram.com/matacopas.teatinos/" target="_blank" rel="noopener" style="flex:none;width:230px;height:230px;border-radius:14px;overflow:hidden;position:relative;text-decoration:none"><img src="images/beers-bar.jpg" alt="" style="width:100%;height:100%;object-fit:cover;transition:transform .7s" style-hover="transform:scale(1.08)"></a>
+      <a href="https://www.instagram.com/matacopas.teatinos/" target="_blank" rel="noopener" style="flex:none;width:230px;height:230px;border-radius:14px;overflow:hidden;position:relative;text-decoration:none"><img src="images/mahou.jpg" alt="" style="width:100%;height:100%;object-fit:cover;transition:transform .7s" style-hover="transform:scale(1.08)"></a>
+      <div style="flex:none;width:230px;height:230px;border-radius:14px;border:1.5px dashed rgba(217,162,78,.3);display:flex;align-items:center;justify-content:center;color:#8C8271;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;text-align:center;background:rgba(217,162,78,.03)">Próxima<br>publicación</div>
+    </div>
+  </section>
+
+  <!-- LOCATION + HOURS -->
+  <section id="contacto" style="position:relative;padding:clamp(70px,9vw,120px) clamp(20px,5vw,64px);max-width:1240px;margin:0 auto">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(30px,5vw,64px)">
+      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.16,.8,.3,1),transform 1s cubic-bezier(.16,.8,.3,1)">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px">
+          <span style="width:34px;height:1px;background:#D9A24E"></span>
+          <span style="font-size:.72rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:#D9A24E">Visítanos</span>
+        </div>
+        <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(2.2rem,4.6vw,3.5rem);line-height:1.02;color:#F6EEDE">Te esperamos<br>en Teatinos</h2>
+
+        <div style="display:flex;flex-direction:column;gap:22px;margin-top:36px">
+          <div style="display:flex;gap:16px;align-items:flex-start">
+            <span style="flex:none;width:40px;height:40px;border-radius:50%;border:1px solid rgba(217,162,78,.35);display:flex;align-items:center;justify-content:center;color:#E9B968;font-size:1rem">◉</span>
+            <div>
+              <div style="font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:#8C8271;margin-bottom:5px">Dirección</div>
+              <div style="font-size:1rem;line-height:1.5;color:#EDE3D0">Calle Pirandello, 16<br>Teatinos-Universidad, 29010 Málaga</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;align-items:flex-start">
+            <span style="flex:none;width:40px;height:40px;border-radius:50%;border:1px solid rgba(217,162,78,.35);display:flex;align-items:center;justify-content:center;color:#E9B968;font-size:1rem">✆</span>
+            <div>
+              <div style="font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:#8C8271;margin-bottom:5px">Teléfono</div>
+              <a href="tel:+34663959442" style="font-size:1rem;color:#EDE3D0;text-decoration:none">663 95 94 42</a>
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;align-items:flex-start">
+            <span style="flex:none;width:40px;height:40px;border-radius:50%;border:1px solid rgba(217,162,78,.35);display:flex;align-items:center;justify-content:center;color:#E9B968;font-size:1rem">❋</span>
+            <div>
+              <div style="font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:#8C8271;margin-bottom:5px">Instagram</div>
+              <a href="https://www.instagram.com/matacopas.teatinos/" target="_blank" rel="noopener" style="font-size:1rem;color:#EDE3D0;text-decoration:none">@matacopas.teatinos</a>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:34px;padding-top:30px;border-top:1px solid rgba(242,233,216,.1)">
+          <div style="font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:#8C8271;margin-bottom:16px">Horario</div>
+          <div data-hours style="display:flex;flex-direction:column;gap:2px">
+            <div data-day="1" style="display:flex;justify-content:space-between;padding:9px 12px;border-radius:8px;transition:background .3s"><span style="color:#C4BAA8">Lunes</span><span style="color:#EDE3D0">16:00 – 02:00</span></div>
+            <div data-day="2" style="display:flex;justify-content:space-between;padding:9px 12px;border-radius:8px;transition:background .3s"><span style="color:#C4BAA8">Martes</span><span style="color:#EDE3D0">16:00 – 02:00</span></div>
+            <div data-day="3" style="display:flex;justify-content:space-between;padding:9px 12px;border-radius:8px;transition:background .3s"><span style="color:#C4BAA8">Miércoles</span><span style="color:#EDE3D0">16:00 – 02:00</span></div>
+            <div data-day="4" style="display:flex;justify-content:space-between;padding:9px 12px;border-radius:8px;transition:background .3s"><span style="color:#C4BAA8">Jueves</span><span style="color:#EDE3D0">16:00 – 02:00</span></div>
+            <div data-day="5" style="display:flex;justify-content:space-between;padding:9px 12px;border-radius:8px;transition:background .3s"><span style="color:#C4BAA8">Viernes</span><span style="color:#EDE3D0">15:00 – 03:00</span></div>
+            <div data-day="6" style="display:flex;justify-content:space-between;padding:9px 12px;border-radius:8px;transition:background .3s"><span style="color:#C4BAA8">Sábado</span><span style="color:#EDE3D0">15:00 – 03:00</span></div>
+            <div data-day="0" style="display:flex;justify-content:space-between;padding:9px 12px;border-radius:8px;transition:background .3s"><span style="color:#C4BAA8">Domingo</span><span style="color:#EDE3D0">15:00 – 02:00</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div data-reveal data-delay="120" style="opacity:0;transform:translateY(28px);transition:opacity 1.1s cubic-bezier(.16,.8,.3,1),transform 1.1s cubic-bezier(.16,.8,.3,1);display:flex;flex-direction:column;gap:18px">
+        <div style="position:relative;flex:1;min-height:380px;border-radius:18px;overflow:hidden;border:1px solid rgba(242,233,216,.1);background:#16130F">
+          <iframe title="Mapa Matacopas" src="https://www.google.com/maps?q=Calle%20Pirandello%2016%2C%2029010%20M%C3%A1laga&output=embed" style="width:100%;height:100%;min-height:380px;border:0;filter:grayscale(.3) contrast(1.05) brightness(.85)" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <a href="https://www.google.com/maps/search/?api=1&query=Calle+Pirandello+16+29010+Malaga" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:17px 28px;background:#D9A24E;color:#0E0C0A;text-decoration:none;font-weight:700;font-size:.84rem;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;transition:transform .35s" style-hover="transform:translateY(-3px)">Cómo llegar →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="position:relative;border-top:1px solid rgba(242,233,216,.1);background:#0B0908;padding:clamp(56px,7vw,88px) clamp(20px,5vw,64px) 40px">
+    <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:40px;align-items:start">
+      <div>
+        <img src="images/logo-cream.png" alt="Matacopas" style="height:70px;width:auto;display:block;margin-bottom:18px">
+        <p style="margin:0;max-width:280px;font-size:.9rem;line-height:1.6;color:#8C8271;font-weight:300">Coffee &amp; Drinks. Coctelería, copas y cervezas del mundo con alma rockera en Teatinos, Málaga.</p>
+      </div>
+      <div>
+        <div style="font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:#D9A24E;margin-bottom:16px">Navega</div>
+        <div style="display:flex;flex-direction:column;gap:11px">
+          <a href="#carta" style="color:#C4BAA8;text-decoration:none;font-size:.92rem;transition:color .3s" style-hover="color:#F2E9D8">La carta</a>
+          <a href="#nosotros" style="color:#C4BAA8;text-decoration:none;font-size:.92rem;transition:color .3s" style-hover="color:#F2E9D8">Nosotros</a>
+          <a href="#galeria" style="color:#C4BAA8;text-decoration:none;font-size:.92rem;transition:color .3s" style-hover="color:#F2E9D8">Galería</a>
+          <a href="#contacto" style="color:#C4BAA8;text-decoration:none;font-size:.92rem;transition:color .3s" style-hover="color:#F2E9D8">Contacto</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:#D9A24E;margin-bottom:16px">Contacto</div>
+        <div style="display:flex;flex-direction:column;gap:11px;font-size:.92rem;color:#C4BAA8">
+          <span>Calle Pirandello, 16</span>
+          <span>29010 Málaga</span>
+          <a href="tel:+34663959442" style="color:#C4BAA8;text-decoration:none" style-hover="color:#F2E9D8">663 95 94 42</a>
+          <a href="https://www.instagram.com/matacopas.teatinos/" target="_blank" rel="noopener" style="color:#C4BAA8;text-decoration:none" style-hover="color:#F2E9D8">@matacopas.teatinos</a>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:1240px;margin:44px auto 0;padding-top:24px;border-top:1px solid rgba(242,233,216,.08);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:.78rem;color:#6E6656">
+      <span>© 2026 Matacopas · Teatinos, Málaga</span>
+      <span>Bebe con moderación · Prohibida la venta a menores de 18 años</span>
+    </div>
+  </footer>
+
+  <!-- LIGHTBOX -->
+  <div data-lb style="position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:40px;background:rgba(6,5,4,.94);cursor:zoom-out;backdrop-filter:blur(6px)">
+    <img data-lb-img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="" style="max-width:92vw;max-height:88vh;border-radius:12px;box-shadow:0 40px 120px rgba(0,0,0,.7)">
+    <span data-lb-close style="position:absolute;top:26px;right:32px;width:44px;height:44px;border-radius:50%;border:1px solid rgba(242,233,216,.3);display:flex;align-items:center;justify-content:center;color:#F2E9D8;font-size:1.3rem;cursor:pointer">✕</span>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    this.rootRef = React.createRef();
+  }
+
+  fmt(n){
+    return Number(n).toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
+  }
+
+  buildMenu(){
+    const RAW = {
+      sections: [
+        { id:'cerveza', name:'Cerveza', tagline:'Tiradas y del mundo', groups:[
+          { name:'San Miguel', items:[
+            { n:'San Miguel Magna', abv:'6,2%', d:'Lager dorada de doble malteado, cuerpo redondo y final tostado.', s:{'Caña':3,'Pinta':4,'Jarra':5,'Botellín':3} },
+            { n:'San Miguel Magna Roja', abv:'6,2%', d:'La Magna en versión ámbar, con notas a caramelo y malta tostada.', p:3 },
+            { n:'San Miguel Especial', abv:'5,4%', d:'La clásica rubia mediterránea: ligera, limpia y refrescante.', s:{'Caña':2.5,'Pinta':3.5,'Jarra':4,'Botellín':2.5} },
+            { n:'San Miguel Radler', abv:'3,2%', d:'Refrescante mezcla de cerveza y limón, ligera y cítrica.', p:3 },
+            { n:'San Miguel 0,0', abv:'0,0%', d:'Todo el sabor de la rubia, sin una gota de alcohol.', p:3 },
+            { n:'San Miguel Sin Gluten', abv:'5,4%', d:'La Especial de siempre, apta para celíacos.', p:3 },
+            { n:'Brutus', abv:'5,0%', d:'Lager premium de carácter intenso y espuma cremosa.', s:{'Botella':3.5,'Caña':3.5,'Pinta':5,'Jarra':6} }
+          ]},
+          { name:'Mahou', items:[
+            { n:'Mahou 5 Estrellas', abv:'5,5%', d:'Icono de Madrid: lager equilibrada, maltosa y de amargor fino.', s:{'Botellín':2.5,'Caña':4,'Pinta':5,'Jarra':6} },
+            { n:'Mahou Maestra Doble Lúpulo', abv:'7,5%', d:'Tostada de doble lúpulo, potente y con reflejos ámbar.', p:3.5 },
+            { n:'Mahou Rosé', abv:'4,8%', d:'Rubia suave con un guiño afrutado y color rosado.', p:3.5 },
+            { n:'Mahou Sin Filtrar', abv:'5,5%', d:'Turbia y jugosa, con todo el carácter de la levadura.', p:3.5 },
+            { n:'Mahou Maestra Dunkel', abv:'6,1%', d:'Lager negra al estilo Múnich, con notas a café y chocolate.', s:{'Caña':3.5,'Pinta':5,'Jarra':6} }
+          ]},
+          { name:'Alhambra', items:[
+            { n:'Alhambra Especial', abv:'5,4%', d:'Lager granadina serena y delicadamente amarga.', p:2.5 },
+            { n:'Alhambra Reserva 1925', abv:'6,4%', d:'Reserva dorada de larga maduración, de cuerpo elegante.', s:{'Botellín':3.5,'Caña':3.5,'Pinta':5,'Jarra':6} },
+            { n:'Alhambra Roja', abv:'7,2%', d:'Tostada intensa de perfil dulce y final cálido.', s:{'Copa':3.5,'Pinta':5,'Jarra':6} }
+          ]},
+          { name:'Del mundo', items:[
+            { n:'Coronita', abv:'4,5%', d:'La mexicana más fresca, perfecta con un gajo de lima.', p:3.5 },
+            { n:'Franziskaner', abv:'5,0%', d:'Weissbier bávara de trigo, con aromas a plátano y clavo.', s:{'Caña':3.5,'Pinta':4,'Jarra':5.5} },
+            { n:'Founders All Day IPA', abv:'4,7%', d:'IPA de sesión americana, lupulada y muy bebible.', p:5 },
+            { n:'Founders Dirty Bastard', abv:'8,5%', d:'Scotch ale robusta, maltosa y de gran carácter.', p:5 },
+            { n:'Budweiser', abv:'5,0%', d:'Lager americana clásica, suave y refrescante.', p:3.5 },
+            { n:'Stella Artois', abv:'5,0%', d:'Pilsner belga elegante, dorada y de amargor limpio.', s:{'Caña':3.5,'Pinta':5,'Jarra':6} },
+            { n:'Modelo Negra', abv:'5,4%', d:'Cerveza oscura estilo Múnich, con dulzor a caramelo.', p:4 },
+            { n:'Hoegaarden', abv:'4,9%', d:'Blanca belga con cilantro y piel de naranja.', s:{'Caña':4,'Pinta':6} },
+            { n:'Guinness', abv:'4,2%', d:'Stout irlandesa de espuma cremosa y notas tostadas.', p:4.5 },
+            { n:'Modelo Especial', abv:'4,5%', d:'Rubia mexicana tipo pilsner, ligera y dorada.', p:4 },
+            { n:'Leffe Blonde', abv:'6,6%', d:'Cerveza de abadía belga, dorada, afrutada y especiada.', p:4 },
+            { n:'Leffe Brune', abv:'6,5%', d:'Abadía oscura con notas a caramelo y vainilla.', p:4 },
+            { n:'Sidra Kopparberg', abv:'4,5%', d:'Sidra sueca afrutada, dulce y burbujeante.', p:4 }
+          ]}
+        ]},
+        { id:'licores', name:'Licores', tagline:'Clásicos, coctelería y algo más', groups:[
+          { name:'Clásicos', items:[
+            { n:'Pacharán Etxeko', d:'Licor navarro de endrinas, dulce y aromático.', p:4.5 },
+            { n:'Pacharán Belasco', d:'Pacharán artesano de endrinas maceradas, suave y goloso.', p:4.5 },
+            { n:'Pacharán Baines', d:'Clásico pacharán, equilibrado y sedoso.', p:5 },
+            { n:'Pacharán Baines Oro', d:'Edición dorada, más redonda y elegante.', p:6 },
+            { n:'Baileys', d:'Crema irlandesa de whisky, aterciopelada y dulce.', p:4.5 },
+            { n:'Limoncello', d:'Licor italiano de limón, fresco y cítrico.', p:5 },
+            { n:'Drambuie', d:'Whisky escocés con miel y hierbas.', p:4.5 },
+            { n:'Sheridans', d:'Doble licor de café y crema, servido en capas.', p:5 },
+            { n:'Ponche Caballero', d:'Licor español dorado, dulce y herbal.', p:4.5 },
+            { n:'Ponche Combinado', d:'Ponche servido largo con refresco al gusto.', p:6 },
+            { n:'Amaretto', d:'Licor italiano de almendra, dulce y aromático.', p:6 },
+            { n:'Cointreau', d:'Triple seco francés de naranja, intenso y limpio.', p:5 },
+            { n:'Fernet Branca', d:'Amaro italiano de hierbas, amargo y digestivo.', p:6.5 },
+            { n:'Jägermeister', d:'Licor alemán de 56 hierbas, servido bien frío.', p:6 },
+            { n:'Frangelico', d:'Licor italiano de avellana tostada.', p:4.5 },
+            { n:'Tequila José Cuervo', d:'Tequila mexicano joven, versátil y directo.', p:6 },
+            { n:'Tequila Don Julio', d:'Tequila premium 100% agave, suave y refinado.', p:10 },
+            { n:'Licor 43', d:'Licor español de vainilla y cítricos, dulce y dorado.', p:6.5 },
+            { n:'Malibu', d:'Ron caribeño con coco, dulce y tropical.', p:5 },
+            { n:'Malibu combinado', d:'Malibú servido largo con tu refresco favorito.', p:6.5 },
+            { n:'Mangaroca', d:'Batida brasileña de coco, cremosa y suave.', p:4.5 },
+            { n:'Anís', d:'Anisado español, seco o dulce.', p:4.5 },
+            { n:'Licor de hierbas', d:'Licor de hierbas gallego, digestivo y aromático.', p:4.5 },
+            { n:'Tía María', d:'Licor de café jamaicano, dulce y tostado.', p:4.5 },
+            { n:'Martini', d:'Vermut italiano, servido con hielo y piel de cítrico.', p:4.5 },
+            { n:'Campari', d:'Bíter italiano rojo, amargo y refrescante.', p:5 },
+            { n:'Terry', d:'Brandy andaluz joven, suave y goloso.', p:4 },
+            { n:'Licores con y sin alcohol', d:'Consulta nuestra selección de licores clásicos y sin alcohol.', p:4.5 }
+          ]},
+          { name:'Brandy', items:[
+            { n:'Larios 1886', d:'Brandy malagueño de solera, redondo y cálido.', p:7 },
+            { n:'Brandy Carlos I', d:'Solera gran reserva, aterciopelado y noble.', p:7 },
+            { n:'Gran Duque de Alba', d:'Brandy de Jerez elegante, con notas a roble.', p:7 },
+            { n:'Cardenal Mendoza', d:'Solera gran reserva, dulce y complejo.', p:5 },
+            { n:'Torres 10', d:'Brandy catalán de 10 años, suave y afrutado.', p:6 },
+            { n:'Torres 15', d:'Reserva privada de 15 años, sedoso y profundo.', p:7 }
+          ]},
+          { name:'Cócteles', items:[
+            { n:'Aperol Spritz', d:'Aperol, cava y soda con un toque de naranja.', p:6.5 },
+            { n:'Mojito', d:'Ron, lima, menta y azúcar. También en fresa, coco, piña, mango o maracuyá.', p:8.5 },
+            { n:'Piña Colada', d:'Ron, coco y piña batidos: cremoso y tropical.', p:8.5 },
+            { n:'San Francisco', d:'Multifrutas tropical, dulce y colorido.', p:8.5 },
+            { n:'Daiquiri', d:'Ron, lima y azúcar, en versión fresa o mango.', p:8.5 },
+            { n:'Margarita', d:'Tequila, triple seco y lima con borde de sal.', p:8.5 },
+            { n:'Spicy Mango Margarita', d:'Margarita de mango con un toque picante.', p:8.5 },
+            { n:'Pornstar Martini', d:'Vodka, maracuyá y vainilla, con cava aparte.', p:8.5 },
+            { n:'Espresso Martini', d:'Vodka, espresso y licor de café: intenso y sedoso.', p:8.5 },
+            { n:'Amaretto / Whisky Sour', d:'Cítrico y aterciopelado, con amaretto o whisky.', p:8.5 },
+            { n:'Moscow Mule', d:'Vodka, lima y ginger beer en jarra de cobre.', p:8.5 },
+            { n:'Bloody Mary', d:'Vodka, tomate y especias, sabroso y picante.', p:8.5 },
+            { n:'Sex on the Beach', d:'Vodka, melocotón y zumos, dulce y afrutado.', p:8.5 },
+            { n:'Tequila Sunrise', d:'Tequila, naranja y granadina en degradado.', p:8.5 },
+            { n:'Negroni', d:'Ginebra, Campari y vermut rojo: amargo y elegante.', p:8.5 },
+            { n:'Mojito Sin', d:'Toda la frescura del mojito, sin alcohol.', p:7 },
+            { n:'Piña Colada Sin', d:'Coco y piña batidos, sin alcohol.', p:7 },
+            { n:'Virgin Mary', d:'Bloody Mary sin alcohol, especiado y sabroso.', p:7 },
+            { n:'San Francisco Sin', d:'Multifrutas tropical, sin alcohol.', p:7 }
+          ]},
+          { name:'Chupitos', items:[
+            { n:'Chupito', d:'Tu licor favorito, en formato exprés.', p:2 },
+            { n:'Chupito Premium', d:'Selección premium para brindar en grande.', p:3 }
+          ]}
+        ]},
+        { id:'copas', name:'Copas', tagline:'Rones, vodkas, ginebras y whiskies', groups:[
+          { name:'Ron', items:[
+            { n:'Barceló', d:'Ron dominicano añejo, suave y acaramelado.', p:7 },
+            { n:'Havana 7', d:'Ron cubano de 7 años, con notas a vainilla y roble.', p:7.5 },
+            { n:'Pálido', d:'Ron ligero y seco, ideal para combinados.', p:6.5 },
+            { n:'Pampero Special', d:'Ron venezolano dorado, redondo y meloso.', p:6.5 },
+            { n:'Santísima Trinidad 7', d:'Ron de 7 años, elegante y afrutado.', p:6 },
+            { n:'Kraken', d:'Ron negro especiado, intenso y misterioso.', p:8 },
+            { n:'Dos Maderas 5+3', d:'Ron caribeño criado en doble barrica.', p:5 },
+            { n:'Cacique', d:'Ron venezolano suave, con dulzor a caramelo.', p:6.5 },
+            { n:'Capitán Morgan', d:'Ron especiado, dulce y muy versátil.', p:7 },
+            { n:'Bacardí', d:'Ron blanco clásico, limpio y ligero.', p:6.5 },
+            { n:'Santa Teresa', d:'Ron venezolano añejo, con carácter.', p:6.5 },
+            { n:'Arehucas', d:'Ron canario dorado, suave y aromático.', p:6 },
+            { n:'Brugal', d:'Ron dominicano seco, perfecto en combinado.', p:6 },
+            { n:'Brugal Doble Reserva', d:'Añejo de doble crianza, cuerpo y elegancia.', p:6 },
+            { n:'Sailor Jerry', d:'Ron especiado con vainilla, potente y sabroso.', p:6.5 }
+          ]},
+          { name:'Ron Premium', items:[
+            { n:'Barceló Imperial', d:'Añejo premium, sedoso y de larga crianza.', p:10 },
+            { n:'Barceló Imperial Onyx', d:'Edición oscura, intensa y refinada.', p:12 },
+            { n:'Barceló Imperial Porto Cask', d:'Acabado en barrica de Oporto.', p:11 },
+            { n:'Santiago de Cuba 20 años', d:'Ron cubano de gran reserva, excepcional.', p:18 },
+            { n:'Havana Selección Maestra', d:'Blend maestro cubano, complejo y profundo.', p:10 },
+            { n:'Zacapa 23', d:'Ron guatemalteco de altura, dulce y aterciopelado.', p:12 },
+            { n:'Zacapa Edición Negra', d:'Perfil ahumado y robusto, para paladares expertos.', p:18 },
+            { n:'Zacapa XO', d:'Solera premium acabada en barrica de coñac.', p:20 },
+            { n:'Matusalén 15', d:'Ron solera de 15 años, elegante y equilibrado.', p:8.5 },
+            { n:'Matusalén 23', d:'Gran reserva de 23 años, sublime.', p:12 },
+            { n:'Pálido Reserva', d:'Reserva ligera y refinada.', p:8 },
+            { n:'Pampero Aniversario', d:'Reserva exclusiva, en su clásica bolsa de cuero.', p:9 },
+            { n:'Don Papa', d:'Ron filipino de caña de azúcar, afrutado y especiado.', p:9 },
+            { n:'Diplomático Reserva', d:'Ron venezolano premium, meloso y complejo.', p:12 },
+            { n:'Diplomático Mantuano', d:'Añejo equilibrado, con notas a fruta y roble.', p:10 },
+            { n:'Santísima Trinidad 15', d:'Gran reserva de 15 años, redonda.', p:12 },
+            { n:'Flor de Caña 12 años', d:'Ron nicaragüense de 12 años, suave y sostenible.', p:9 },
+            { n:'Dos Maderas 5+5', d:'Doble crianza premium en barrica de Pedro Ximénez.', p:5 },
+            { n:'Ron Botran', d:'Ron guatemalteco añejo, dulce y especiado.', p:8 },
+            { n:'Cacique 500', d:'Reserva especial, elegante y aromática.', p:7.5 },
+            { n:'Bacardí 8', d:'Ron de 8 años, dorado y con cuerpo.', p:7.5 },
+            { n:'Santa Teresa 1796', d:'Solera venezolana premium, profunda.', p:10 },
+            { n:'Brugal 1888', d:'Doble añejamiento en barricas de jerez.', p:8.5 },
+            { n:'Bumbu', d:'Ron especiado artesano, dulce y aromático.', p:10 },
+            { n:'Bumbu Cream', d:'Crema de ron con vainilla y caramelo.', p:10 },
+            { n:'Bumbu XO', d:'Ron añejo premium, suave y complejo.', p:12 },
+            { n:'Francisco Montero', d:'Ron artesano andaluz de edición limitada.', p:12 },
+            { n:'Abuelo XII Oloroso Sherry Cask', d:'Acabado en barrica de oloroso, seco y noble.', p:10 },
+            { n:'Abuelo XII Tawny Port Cask', d:'Crianza en barrica de Oporto, afrutado.', p:10 },
+            { n:'Abuelo XV', d:'Añejo panameño de 15 años, elegante.', p:15 },
+            { n:'Abuelo Centuria', d:'Gran reserva solera, excepcional.', p:25 },
+            { n:'Isla del Tesoro', d:'Ron de colección, la joya de la casa.', p:30 },
+            { n:'Valdés Pino', d:'Ron premium de perfil singular.', p:10 }
+          ]},
+          { name:'Vodka', items:[
+            { n:'Eristoff', d:'Vodka puro y limpio, ideal para mezclar.', p:6 },
+            { n:'Eristoff Black', d:'Vodka con endrinas, sabor a frutos del bosque.', p:6 },
+            { n:'Cîroc', d:'Vodka francés de uva, sedoso y elegante.', p:8 },
+            { n:'Absolut', d:'Vodka sueco clásico, suave y versátil.', p:6.5 },
+            { n:'Stolichnaya', d:'Vodka tradicional, limpio y equilibrado.', p:6 },
+            { n:'Finlandia', d:'Vodka finlandés de cebada, puro y fresco.', p:7 },
+            { n:'Beluga', d:'Vodka ruso premium, sedoso y refinado.', p:8 },
+            { n:'Beluga Transatlantic', d:'Edición premium, cremosa y aromática.', p:10 },
+            { n:'Belvedere', d:'Vodka polaco de centeno, aterciopelado.', p:8 },
+            { n:'Grey Goose', d:'Vodka francés premium, suave y elegante.', p:8 },
+            { n:'Elit', d:'Vodka ultra premium, excepcionalmente puro.', p:8 }
+          ]},
+          { name:'Ginebra', items:[
+            { n:'Tanqueray', d:'London dry clásica, seca y con enebro marcado.', p:6.5 },
+            { n:'Tanqueray Ten', d:'Premium con cítricos frescos y manzanilla.', p:7 },
+            { n:'Tanqueray Rangpur', d:'Con lima rangpur, fresca y cítrica.', p:7 },
+            { n:'Tanqueray Sevilla', d:'Con naranja de Sevilla, dulce y aromática.', p:7 },
+            { n:"Gordon's Pink", d:'Ginebra rosada con frutos rojos.', p:6 },
+            { n:'Jinzu', d:'Ginebra británica con sake y flor de cerezo.', p:7 },
+            { n:'Larios', d:'Ginebra malagueña mediterránea, suave.', p:6 },
+            { n:'Larios 12', d:'Doce botánicos, con un toque de azahar.', p:7 },
+            { n:'Larios Rosé', d:'Rosada con fresa mediterránea.', p:6.5 },
+            { n:'Larios Citrus', d:'Ginebra cítrica, fresca y luminosa.', p:6 },
+            { n:'Larios 150', d:'Edición aniversario, floral y elegante.', p:7 },
+            { n:'Beefeater', d:'London dry con nueve botánicos, equilibrada.', p:6.5 },
+            { n:'Beefeater Pink', d:'Con fresa, suave y afrutada.', p:6.5 },
+            { n:'Beefeater 24', d:'Premium con té verde y sencha.', p:7 },
+            { n:"Seagram's", d:'Ginebra americana suave y aromática.', p:7 },
+            { n:'Malfy Limone', d:'Ginebra italiana con limón de la Costa Amalfitana.', p:6.5 },
+            { n:'Malfy Arancia', d:'Con naranja sanguina siciliana.', p:6.5 },
+            { n:'Bombay Sapphire', d:'Diez botánicos, floral y equilibrada.', p:7 },
+            { n:'Star of Bombay', d:'Premium con ambrette y ralladura de bergamota.', p:8 },
+            { n:'Master', d:'Ginebra premium española, seca y fina.', p:6 },
+            { n:'Master Pink', d:'Rosada con frutos rojos, suave.', p:6 },
+            { n:'Master Green', d:'Con toques cítricos y herbales.', p:6 },
+            { n:"Martin Miller's", d:'Con agua de manantial islandesa, limpia y fresca.', p:9 },
+            { n:"Martin Miller's Mandarin", d:'Edición con mandarina, cítrica y elegante.', p:10 },
+            { n:"Martin Miller's Summerful", d:'Edición estival, floral y afrutada.', p:10 },
+            { n:'Citadelle', d:'Ginebra francesa con 19 botánicos.', p:6.5 },
+            { n:'Citadelle Reserva', d:'Envejecida en barrica, compleja y sedosa.', p:8 },
+            { n:'Citadelle No Mistake', d:'Edición Old Tom, redonda y sutilmente dulce.', p:10 },
+            { n:'Nordés', d:'Ginebra gallega con uva albariño y hierbas atlánticas.', p:7.5 },
+            { n:'Ampersand Cítricos', d:'Ginebra española cítrica y fresca.', p:6 },
+            { n:'Ampersand Melón', d:'Con melón, dulce y veraniega.', p:6 }
+          ]},
+          { name:'Whisky', items:[
+            { n:'Johnnie Walker Rojo', d:'Blend escocés vibrante, ideal para combinar.', p:6.5 },
+            { n:'Johnnie Walker Etiqueta Negra', d:'Blend de 12 años, ahumado y con cuerpo.', p:9 },
+            { n:'Johnnie Walker Double Black', d:'Más turba e intensidad ahumada.', p:10 },
+            { n:'Johnnie Walker Green Label', d:'Malta pura de 15 años, herbal y compleja.', p:12 },
+            { n:'Johnnie Walker Gold Label', d:'Blend dorado, sedoso y meloso.', p:15 },
+            { n:"Jack Daniel's", d:'Tennessee whiskey suave, con dulzor a vainilla.', p:8 },
+            { n:'Macallan 12', d:'Single malt criado en jerez, afrutado y cálido.', p:12 },
+            { n:'Macallan 15', d:'Doble barrica, especiado y elegante.', p:16 },
+            { n:'Macallan 18', d:'Gran reserva, complejo y sedoso.', p:30 },
+            { n:'Macallan Rare Cask', d:'Edición excepcional, intensa y lujosa.', p:40 },
+            { n:"Ballantine's Light", d:'Blend ligero y suave, fácil de beber.', p:6 },
+            { n:'Chivas Regal Mizunara', d:'Blend acabado en roble japonés mizunara.', p:12 },
+            { n:'Glenfiddich 12', d:'Single malt afrutado con notas a pera.', p:12 },
+            { n:'Glenfiddich 15', d:'Solera de 15 años, cálido y con miel.', p:15 },
+            { n:'Glenfiddich 18', d:'Reserva madura, rica y elegante.', p:18 },
+            { n:'Glenfiddich 21', d:'Acabado en ron caribeño, especiado.', p:20 },
+            { n:'Glenfiddich IPA', d:'Acabado en barrica de cerveza IPA, cítrico y fresco.', p:15 }
+          ]}
+        ]},
+        { id:'vinos', name:'Vinos', tagline:'Tintos, blancos, cava y champagne', groups:[
+          { name:'Por copa y botella', items:[
+            { n:'Ribera del Duero', d:'Tinto castellano con cuerpo y fruta madura. Por copa.', p:2.7 },
+            { n:'Rioja', d:'Tinto clásico, redondo y con notas a roble. Por copa.', p:2.5 },
+            { n:'Verdejo', d:'Blanco de Rueda, fresco y afrutado. Por copa.', p:2.5 },
+            { n:'Rosado', d:'Rosado ligero, floral y refrescante. Por copa.', p:2.5 },
+            { n:'Freixenet Mía (copa)', d:'Vino joven y afrutado, servido por copa.', p:3 },
+            { n:'Freixenet Mía (botella)', d:'Botella del popular blanco afrutado.', p:15 },
+            { n:'Freixenet Conegliano (botella)', d:'Prosecco italiano fino y burbujeante.', p:18 },
+            { n:'Freixenet Rosé Pinot (botella)', d:'Espumoso rosado elegante y fresco.', p:18 },
+            { n:'Freixenet Mini Blanco', d:'Botellín individual de espumoso blanco.', p:5 },
+            { n:'Freixenet Mini Rosé', d:'Botellín individual de espumoso rosado.', p:5 }
+          ]},
+          { name:'Cava & Champagne', items:[
+            { n:'Cava La Vie Rosé (copa)', d:'Cava rosado por copa, fino y festivo.', p:4 },
+            { n:'Cava La Vie Rosé (botella)', d:'Botella de cava rosado para celebrar.', p:25 },
+            { n:'Champagne Alfred Gratien', d:'Champagne francés artesano, elegante y complejo.', p:45 }
+          ]}
+        ]},
+        { id:'cafes', name:'Cafés e Infusiones', tagline:'Para acompañar la sobremesa', groups:[
+          { name:'Cafés', items:[
+            { n:'Espresso', d:'Café intenso y aromático, servido corto.', p:1.5 },
+            { n:'Cortado', d:'Espresso con un toque de leche.', p:1.6 },
+            { n:'Café con leche', d:'El clásico, en equilibrio perfecto.', p:1.7 },
+            { n:'Capuchino', d:'Espresso coronado con espuma de leche.', p:2 },
+            { n:'Café Bombón', d:'Espresso con leche condensada.', p:2 },
+            { n:'Colacao', d:'Chocolate a la taza, reconfortante.', p:2 },
+            { n:'Carajillo', d:'Café con un chorrito de licor.', p:2.5 },
+            { n:'Café Irlandés', d:'Café, whisky y nata montada.', p:5 }
+          ]},
+          { name:'Infusiones', items:[
+            { n:'Infusiones', d:'Selección de tés e infusiones naturales.', p:1.5 }
+          ]}
+        ]},
+        { id:'picoteo', name:'Picoteo', tagline:'Para picar entre copas', groups:[
+          { name:'Snacks', items:[
+            { n:'Aceitunas', d:'Aceitunas aliñadas, para abrir boca.', p:1.5 },
+            { n:'Patatas fritas', d:'Crujientes y doradas, siempre apetecen.', p:1.5 },
+            { n:'Frutos secos', d:'Surtido de frutos secos tostados.', p:1.5 },
+            { n:'Gominolas', d:'Dulces de colores para los más golosos.', p:2 },
+            { n:'Nachos con queso', d:'Nachos crujientes con queso fundido.', p:4 },
+            { n:'Nachos Matacopas', d:'Nuestros nachos especiales con todos los toppings.', p:6 }
+          ]}
+        ]}
+      ]
+    };
+    return RAW.sections.map(sec => ({
+      id: sec.id,
+      name: sec.name,
+      tagline: sec.tagline,
+      groups: sec.groups.map(g => ({
+        name: g.name,
+        items: g.items.map(it => ({
+          name: it.n,
+          abv: it.abv || '',
+          desc: it.d || '',
+          single: (it.p != null) ? this.fmt(it.p) : '',
+          sizes: it.s ? Object.keys(it.s).map(label => ({ label, price: this.fmt(it.s[label]) })) : []
+        }))
+      }))
+    }));
+  }
+
+  renderVals(){
+    if(!this._menu) this._menu = this.buildMenu();
+    return { sections: this._menu, rootRef: this.rootRef };
+  }
+
+  componentDidMount(){
+    const root = this.rootRef.current;
+    if(!root) return;
+
+    // ---- Scroll reveals (query fresh each call; nodes may be re-created by the runtime) ----
+    const revealNow = () => {
+      const vh = window.innerHeight || document.documentElement.clientHeight || 0;
+      const measurable = vh > 40;
+      document.querySelectorAll('[data-reveal]').forEach(el => {
+        if(el.style.opacity === '1') return;
+        const rect = el.getBoundingClientRect();
+        if(!measurable || (rect.top < vh * 0.95 && rect.bottom > -60)){
+          const d = parseInt(el.getAttribute('data-delay') || '0', 10);
+          el.style.transitionDelay = d + 'ms';
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+        }
+      });
+    };
+
+    // ---- Menu tabs (state in a var; re-applied fresh so re-renders can't reset it) ----
+    let activeTab = 'cerveza';
+    const applyTabs = () => {
+      document.querySelectorAll('[data-section]').forEach(s => {
+        s.style.display = (s.getAttribute('data-section') === activeTab) ? 'block' : 'none';
+      });
+      document.querySelectorAll('[data-tab]').forEach(t => {
+        const on = t.getAttribute('data-tab') === activeTab;
+        t.style.background = on ? '#D9A24E' : 'transparent';
+        t.style.color = on ? '#0E0C0A' : '#C4BAA8';
+        t.style.borderColor = on ? 'rgba(217,162,78,.6)' : 'rgba(242,233,216,.18)';
+        t.style.fontWeight = on ? '700' : '600';
+      });
+    };
+
+    // ---- Today's hours row highlight (re-applied fresh) ----
+    const today = new Date().getDay();
+    const applyHours = () => {
+      const row = document.querySelector('[data-hours] [data-day="' + today + '"]');
+      if(row && !row.__hi){
+        row.__hi = true;
+        row.style.background = 'rgba(217,162,78,.12)';
+        row.querySelectorAll('span').forEach(s => s.style.color = '#E9B968');
+      }
+    };
+
+    // ---- Nav on scroll + parallax + reveals (all fresh queries) ----
+    const onScroll = () => {
+      const y = window.scrollY;
+      const nav = document.querySelector('[data-nav]');
+      if(nav){
+        const s = y > 40;
+        nav.style.background = s ? 'rgba(12,10,8,.85)' : 'transparent';
+        nav.style.backdropFilter = s ? 'blur(14px)' : 'none';
+        nav.style.webkitBackdropFilter = s ? 'blur(14px)' : 'none';
+        nav.style.borderBottomColor = s ? 'rgba(242,233,216,.1)' : 'transparent';
+        nav.style.paddingTop = s ? '13px' : '20px';
+        nav.style.paddingBottom = s ? '13px' : '20px';
+      }
+      revealNow();
+      const heroBg = document.querySelector('[data-hero-bg]');
+      if(heroBg) heroBg.style.transform = 'translateY(' + (y * 0.32) + 'px)';
+      document.querySelectorAll('[data-parallax]').forEach(el => {
+        const rate = parseFloat(el.getAttribute('data-parallax')) || 0.2;
+        const r = el.parentElement.getBoundingClientRect();
+        const off = (r.top + r.height/2 - window.innerHeight/2);
+        el.style.transform = 'translateY(' + (-off * rate) + 'px)';
+      });
+    };
+
+    // ---- Delegated clicks (survive re-renders) ----
+    if(!document.__mcBound){
+      document.__mcBound = true;
+      document.addEventListener('click', (e) => {
+        // Mobile menu toggle
+        const burger = e.target.closest('[data-burger]');
+        const menu = document.querySelector('[data-mobile-menu]');
+        if(burger && menu){
+          const open = menu.style.display === 'flex';
+          menu.style.display = open ? 'none' : 'flex';
+          if(!open) menu.style.animation = 'mc-menu-in .35s ease';
+          const bars = burger.querySelectorAll('[data-burger-icon] > span');
+          if(bars.length === 3){
+            if(!open){
+              bars[0].style.top = '6px'; bars[0].style.transform = 'rotate(45deg)';
+              bars[1].style.opacity = '0';
+              bars[2].style.top = '6px'; bars[2].style.transform = 'rotate(-45deg)';
+            } else {
+              bars[0].style.top = '0'; bars[0].style.transform = 'none';
+              bars[1].style.opacity = '1';
+              bars[2].style.top = '12px'; bars[2].style.transform = 'none';
+            }
+          }
+          return;
+        }
+        if(e.target.closest('[data-mm-link]')){
+          const m = document.querySelector('[data-mobile-menu]');
+          if(m) m.style.display = 'none';
+          const b = document.querySelector('[data-burger] [data-burger-icon]');
+          if(b){ const bars = b.querySelectorAll('span'); if(bars.length===3){ bars[0].style.top='0';bars[0].style.transform='none';bars[1].style.opacity='1';bars[2].style.top='12px';bars[2].style.transform='none'; } }
+          // allow the anchor jump to proceed
+        }
+        const tab = e.target.closest('[data-tab]');
+        if(tab){
+          document.__mcActiveTab = tab.getAttribute('data-tab');
+          if(document.__mcApplyTabs) document.__mcApplyTabs();
+          const menu = document.querySelector('#carta');
+          if(menu){ window.scrollTo({ top: menu.getBoundingClientRect().top + window.scrollY - 60, behavior: 'smooth' }); }
+          return;
+        }
+        const lbTrigger = e.target.closest('[data-lightbox]');
+        if(lbTrigger){
+          const lb = document.querySelector('[data-lb]');
+          const img = document.querySelector('[data-lb-img]');
+          if(lb && img){ img.src = lbTrigger.getAttribute('data-lightbox'); lb.style.display = 'flex'; }
+          return;
+        }
+        const lbEl = e.target.closest('[data-lb]');
+        if(lbEl && (e.target === lbEl || e.target.hasAttribute('data-lb-close'))){
+          lbEl.style.display = 'none';
+        }
+      });
+      document.addEventListener('keydown', (e) => {
+        if(e.key === 'Escape'){ const lb = document.querySelector('[data-lb]'); if(lb) lb.style.display = 'none'; }
+      });
+    }
+    // expose current-tab application to the delegated handler
+    document.__mcActiveTab = document.__mcActiveTab || activeTab;
+    document.__mcApplyTabs = () => { activeTab = document.__mcActiveTab; applyTabs(); };
+
+    // ---- Settle loop: keep re-applying through the runtime's initial re-renders ----
+    const settle = () => { document.__mcApplyTabs(); applyHours(); revealNow(); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    onScroll();
+    settle();
+    [60, 160, 320, 600, 1000, 1600, 2400].forEach(t => setTimeout(settle, t));
+    requestAnimationFrame(settle);
+  }
+}
+</script>
+</body>
+</html>
