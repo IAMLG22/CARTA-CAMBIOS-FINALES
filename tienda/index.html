@@ -354,7 +354,7 @@ footer{border-top:1px solid var(--line);background:#0B0908;padding:clamp(56px,7v
           tamanos: valorCelda(fila.c[6]),
           imagen: valorCelda(fila.c[7])
         };
-      }).filter(function(p){ return p.seccion === SECCION_TIENDA && p.producto !== ''; });
+      }).filter(function(p){ return String(p.seccion).trim() === SECCION_TIENDA && p.producto !== ''; });
 
       if(!productos.length){ renderizarVacio(grid); return; }
       grid.innerHTML = productos.map(productoHTML).join('');

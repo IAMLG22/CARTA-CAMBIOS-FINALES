@@ -713,7 +713,7 @@ window.addEventListener('DOMContentLoaded', function(){
       cartaData = {};
       Object.keys(SECCIONES).forEach(function(k){ cartaData[k] = new Map(); });
       productos.forEach(function(item){
-        var secKey = Object.keys(SECCIONES).find(function(k){ return SECCIONES[k].sheet === item.seccion; });
+        var secKey = Object.keys(SECCIONES).find(function(k){ return SECCIONES[k].sheet === String(item.seccion).trim(); });
         if(!secKey) return;
         if(!cartaData[secKey].has(item.categoria)) cartaData[secKey].set(item.categoria, []);
         cartaData[secKey].get(item.categoria).push(item);
