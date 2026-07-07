@@ -312,6 +312,13 @@ footer{border-top:1px solid var(--line);background:#0B0908;padding:clamp(56px,7v
   .marquee .track{animation:none}
   .btn-review{animation:none}
 }
+.cat-ofertas{grid-column: 1 / -1; aspect-ratio: auto; padding: 24px; flex-direction: row; gap: 14px;}
+.cat-ofertas .cc-name{color: var(--gold-2); letter-spacing: 0.1em; text-transform: uppercase; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 1.1rem;}
+.cat-ofertas .cc-ico{background: rgba(217,162,78,.15); border-color: rgba(217,162,78,.6);}
+.cat-refrescos{grid-column: 2;}
+@media (max-width:640px) {
+  .cat-refrescos{grid-column: auto;}
+}
 </style>
 </head>
 <body>
@@ -342,6 +349,7 @@ footer{border-top:1px solid var(--line);background:#0B0908;padding:clamp(56px,7v
     <p class="hero-sub reveal" data-delay="240">Tu lugar de encuentro para tomar cócteles, cervezas del mundo y más de 200 destilados que convierten cada noche en un ritual. Con alma rockera, en el corazón de Teatinos.</p>
     <div class="hero-btns reveal" data-delay="360">
       <a class="btn btn-gold" href="#carta">Ver la carta →</a>
+      <a class="btn btn-outline" href="tienda/">Nuestra tienda →</a>
       <a class="btn btn-outline" href="https://maps.app.goo.gl/uHht2P2eSD53H52t5" target="_blank" rel="noopener">Cómo llegar</a>
     </div>
   </div>
@@ -388,29 +396,37 @@ footer{border-top:1px solid var(--line);background:#0B0908;padding:clamp(56px,7v
     <p>Toca una categoría para descubrir todas las marcas y referencias de la casa.</p>
   </div>
   <div class="cat-grid">
-    <button class="cat-card reveal" data-cat="cerveza" data-delay="0" aria-haspopup="dialog">
+    <button class="cat-card cat-ofertas reveal" data-cat="ofertas" data-delay="0" aria-haspopup="dialog">
+      <span class="cc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+      <span class="cc-name">Ofertas Especiales</span>
+    </button>
+    <button class="cat-card reveal" data-cat="cerveza" data-delay="60" aria-haspopup="dialog">
       <span class="cc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M17 8h2a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/><path d="M10 8v9M14 8v9"/></svg></span>
       <span class="cc-name">Cerveza</span>
     </button>
-    <button class="cat-card reveal" data-cat="licores" data-delay="60" aria-haspopup="dialog">
+    <button class="cat-card reveal" data-cat="licores" data-delay="120" aria-haspopup="dialog">
       <span class="cc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 3h3v4.2c2 .9 3.2 2.4 3.2 4.4V19a2 2 0 0 1-2 2H9.3a2 2 0 0 1-2-2v-7.4c0-2 1.2-3.5 3.2-4.4V3Z"/><path d="M9.5 3h5M7.5 14h9"/></svg></span>
       <span class="cc-name">Licores</span>
     </button>
-    <button class="cat-card reveal" data-cat="copas" data-delay="120" aria-haspopup="dialog">
+    <button class="cat-card reveal" data-cat="copas" data-delay="180" aria-haspopup="dialog">
       <span class="cc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l-1.2 10.5a3 3 0 0 1-3 2.5h-3.6a3 3 0 0 1-3-2.5L6 3Z"/><path d="M6.6 8h10.8M12 16v5M8.5 21h7"/></svg></span>
       <span class="cc-name">Copas</span>
     </button>
-    <button class="cat-card reveal" data-cat="vinos" data-delay="180" aria-haspopup="dialog">
+    <button class="cat-card reveal" data-cat="vinos" data-delay="240" aria-haspopup="dialog">
       <span class="cc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8v5a4 4 0 0 1-8 0V3Z"/><path d="M8 6.5h8M12 12v8M9 20h6"/></svg></span>
       <span class="cc-name">Vinos</span>
     </button>
-    <button class="cat-card reveal" data-cat="cafes" data-delay="240" aria-haspopup="dialog">
+    <button class="cat-card reveal" data-cat="cafes" data-delay="300" aria-haspopup="dialog">
       <span class="cc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h12v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V9Z"/><path d="M16 10h2a2.5 2.5 0 0 1 0 5h-2M7 5.5c0-1 .8-1 .8-2M11 5.5c0-1 .8-1 .8-2"/></svg></span>
       <span class="cc-name">Cafés</span>
     </button>
-    <button class="cat-card reveal" data-cat="cocteles" data-delay="300" aria-haspopup="dialog">
+    <button class="cat-card reveal" data-cat="cocteles" data-delay="360" aria-haspopup="dialog">
       <span class="cc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 5h17l-8.5 9.5L3.5 5Z"/><path d="M12 14.5V20M8.5 21h7"/><path d="M6.6 8.5h10.8"/><circle cx="14" cy="6.6" r="1.5"/><path d="m15 5.4 3-2.9"/></svg></span>
       <span class="cc-name">Cócteles</span>
+    </button>
+    <button class="cat-card cat-refrescos reveal" data-cat="refrescos" data-delay="420" aria-haspopup="dialog">
+      <span class="cc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l-1 18H7Z"/><path d="M10 3v18"/><path d="M14 3v18"/></svg></span>
+      <span class="cc-name">Refrescos</span>
     </button>
   </div>
   <p class="menu-note">Precios en euros (IVA incluido). Carta sujeta a disponibilidad. Bebe con moderación.</p>
@@ -624,9 +640,11 @@ window.addEventListener('DOMContentLoaded', function(){
     copas:   {sheet:'Copas', titulo:'Copas', tag:'Ron · Whisky · Gin · Vodka'},
     vinos:   {sheet:'Vinos', titulo:'Vinos', tag:'Tintos, blancos, cava y champagne'},
     cafes:   {sheet:'Cafés e Infusiones', titulo:'Cafés e Infusiones', tag:'Para acompañar la sobremesa'},
-    cocteles: {sheet:'Cócteles', titulo:'Cócteles', tag:'Nuestra selección especial'}
+    cocteles: {sheet:'Cócteles', titulo:'Cócteles', tag:'Nuestra selección especial'},
+    ofertas: {sheet:'Ofertas', titulo:'Ofertas', tag:'Promociones y descuentos'},
+    refrescos: {sheet:'Refrescos', titulo:'Refrescos', tag:'Para acompañar tu momento'}
   };
-
+  
   // Subnavegación por sección: cada pill agrupa las categorías del sheet que le corresponden.
   // "General" en Licores es cajón de sastre: recoge lo que no encaje en el resto de pills.
   var SUBNAV_GRUPOS = {
@@ -786,7 +804,14 @@ window.addEventListener('DOMContentLoaded', function(){
     } else {
       var html = '';
       categorias.forEach(function(items, cat){ html += grupoHTML(cat, items); });
-      bodyEl.innerHTML = html || '<div class="cm-loading">Muy pronto…</div>';
+      if (!html) {
+        if (sec === 'ofertas') {
+          html = '<div class="cm-loading">Consulte a nuestros camareros para descubrir las ofertas actuales.</div>';
+        } else {
+          html = '<div class="cm-loading">Muy pronto…</div>';
+        }
+      }
+      bodyEl.innerHTML = html;
     }
     animarItems(bodyEl.querySelector('.spirit-pane.active') || bodyEl);
   }
