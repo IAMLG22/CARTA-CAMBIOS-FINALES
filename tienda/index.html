@@ -304,7 +304,7 @@ footer{border-top:1px solid var(--line);background:#0B0908;padding:clamp(56px,7v
   }
 
   function productoHTML(p){
-    var imgHtml = p.imagen ? '<div class="sc-img"><img src="' + escaparHtml(p.imagen) + '" alt="' + escaparHtml(p.producto) + '" loading="lazy"></div>' : '';
+    var imgHtml = p.imagen ? '<div class="sc-img"><img src="' + escaparHtml(p.imagen) + '" alt="' + escaparHtml(p.producto) + '" loading="lazy" onerror="this.closest(\'.sc-img\').remove()"></div>' : '';
     var descHtml = p.descripcion ? '<p class="sc-desc">' + escaparHtml(p.descripcion) + '</p>' : '';
     var tamanos = String(p.tamanos || '').trim();
     var precioHtml;
@@ -334,7 +334,7 @@ footer{border-top:1px solid var(--line);background:#0B0908;padding:clamp(56px,7v
 
   async function cargarTienda(){
     var grid = document.getElementById('shop-grid');
-    var url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:json&gid=' + GID;
+    var url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:json&gid=' + GID + '&headers=1';
     try{
       var respuesta = await fetch(url);
       var texto = await respuesta.text();

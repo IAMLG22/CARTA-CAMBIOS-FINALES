@@ -689,7 +689,7 @@ window.addEventListener('DOMContentLoaded', function(){
   }
 
   async function cargarCartaDesdeSheets(){
-    var url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:json&gid=' + GID;
+    var url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:json&gid=' + GID + '&headers=1';
     try{
       var respuesta = await fetch(url);
       var texto = await respuesta.text();
