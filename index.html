@@ -276,6 +276,14 @@ footer{border-top:1px solid var(--line);background:#0B0908;padding:clamp(56px,7v
 .nm-cta{margin-top:22px;display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 22px;background:var(--gold);color:var(--bg);text-decoration:none;font-weight:700;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;border-radius:999px}
 .nm-ig{display:block;margin-top:14px;text-align:center;color:var(--muted);text-decoration:none;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase}
 
+/* ============ MENÚ TELÉFONO (llamar / whatsapp) ============ */
+.phone-pop{position:fixed;z-index:95;display:none;flex-direction:column;gap:2px;padding:8px;border-radius:16px;background:rgba(22,18,14,.92);backdrop-filter:blur(22px) saturate(1.4);-webkit-backdrop-filter:blur(22px) saturate(1.4);border:1px solid rgba(242,233,216,.16);box-shadow:0 20px 60px rgba(0,0,0,.55);min-width:180px}
+.phone-pop.open{display:flex}
+.phone-pop a{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:10px;color:var(--cream);text-decoration:none;font-size:.85rem;font-weight:600;white-space:nowrap;transition:background .25s,color .25s}
+.phone-pop a svg{width:18px;height:18px;flex:none}
+.phone-pop a:hover{background:rgba(217,162,78,.14);color:var(--gold-2)}
+.phone-pop a.wa:hover{background:rgba(37,211,102,.14);color:#3ddc7c}
+
 /* ============ RESPONSIVE ============ */
 @media (max-width:900px){
   .top-dock{display:none}
@@ -333,7 +341,7 @@ footer{border-top:1px solid var(--line);background:#0B0908;padding:clamp(56px,7v
     <a class="dock-btn" href="#resenas" data-spy="resenas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.6 6.3.9-4.5 4.4 1 6.1L12 17.2 6.5 20l1-6.1L3 9.5l6.3-.9L12 3Z"/></svg>Reseñas</a>
     <button class="dock-btn dock-menu menu-toggle" aria-haspopup="dialog" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Menú</button>
   </div>
-  <a class="pill-phone" href="tel:+34663959442"><span class="dot"></span>663 95 94 42</a>
+  <a class="pill-phone phone-trigger" href="tel:+34663959442"><span class="dot"></span>663 95 94 42</a>
 </nav>
 
 <div id="top"></div>
@@ -476,7 +484,7 @@ footer{border-top:1px solid var(--line);background:#0B0908;padding:clamp(56px,7v
       <h2>Te esperamos<br>en Teatinos</h2>
       <div class="c-rows">
         <div class="c-row"><span class="c-ico">◉</span><div><div class="c-k">Dirección</div><div class="c-v">Calle Pirandello, 16<br>Teatinos-Universidad, 29010 Málaga</div></div></div>
-        <div class="c-row"><span class="c-ico">✆</span><div><div class="c-k">Teléfono</div><a class="c-v" href="tel:+34663959442">663 95 94 42</a></div></div>
+        <div class="c-row"><span class="c-ico">✆</span><div><div class="c-k">Teléfono</div><a class="c-v phone-trigger" href="tel:+34663959442">663 95 94 42</a></div></div>
         <div class="c-row"><span class="c-ico">❋</span><div><div class="c-k">Instagram</div><a class="c-v" href="https://www.instagram.com/matacopas.teatinos/" target="_blank" rel="noopener">@matacopas.teatinos</a></div></div>
       </div>
       <div class="hours"><div class="k">Horario</div><div class="list"><div class="h-day" data-day="1"><span class="d">Lunes</span><span class="t">16:00 – 02:00</span></div><div class="h-day" data-day="2"><span class="d">Martes</span><span class="t">16:00 – 02:00</span></div><div class="h-day" data-day="3"><span class="d">Miércoles</span><span class="t">16:00 – 02:00</span></div><div class="h-day" data-day="4"><span class="d">Jueves</span><span class="t">16:00 – 02:00</span></div><div class="h-day" data-day="5"><span class="d">Viernes</span><span class="t">15:00 – 03:00</span></div><div class="h-day" data-day="6"><span class="d">Sábado</span><span class="t">15:00 – 03:00</span></div><div class="h-day" data-day="0"><span class="d">Domingo</span><span class="t">15:00 – 02:00</span></div></div></div>
@@ -492,7 +500,7 @@ footer{border-top:1px solid var(--line);background:#0B0908;padding:clamp(56px,7v
   <div class="foot-grid">
     <div class="foot-col"><img src="assets/logo-cream.png" alt="Matacopas"><p class="foot-about">Coffee & Drinks. Cócteles, copas y cervezas del mundo con alma rockera en Teatinos, Málaga.</p></div>
     <div class="foot-col"><div class="foot-h">Navega</div><div class="links"><a href="#carta">La carta</a><a href="#nosotros">Nosotros</a><a href="#galeria">Galería</a><a href="#resenas">Reseñas</a><a href="#contacto">Contacto</a></div></div>
-    <div class="foot-col"><div class="foot-h">Contacto</div><div class="foot-info"><span>Calle Pirandello, 16</span><span>29010 Málaga</span><a href="tel:+34663959442">663 95 94 42</a><a href="https://www.instagram.com/matacopas.teatinos/" target="_blank" rel="noopener">@matacopas.teatinos</a></div></div>
+    <div class="foot-col"><div class="foot-h">Contacto</div><div class="foot-info"><span>Calle Pirandello, 16</span><span>29010 Málaga</span><a class="phone-trigger" href="tel:+34663959442">663 95 94 42</a><a href="https://www.instagram.com/matacopas.teatinos/" target="_blank" rel="noopener">@matacopas.teatinos</a></div></div>
   </div>
   <div class="foot-bar"><span>© 2026 Matacopas · Teatinos, Málaga</span><span>Bebe con moderación · Prohibida la venta a menores de 18 años</span></div>
 </footer>
@@ -533,7 +541,7 @@ footer{border-top:1px solid var(--line);background:#0B0908;padding:clamp(56px,7v
       <a class="nm-link" href="#resenas">Reseñas<span class="arr">→</span></a>
       <a class="nm-link" href="#contacto">Contacto<span class="arr">→</span></a>
     </div>
-    <a class="nm-cta" href="tel:+34663959442">Llamar · 663 95 94 42</a>
+    <a class="nm-cta phone-trigger" href="tel:+34663959442">Llamar · 663 95 94 42</a>
     <a class="nm-ig" href="https://www.instagram.com/matacopas.teatinos/" target="_blank" rel="noopener">@matacopas.teatinos</a>
   </div>
 </div>
@@ -938,6 +946,57 @@ window.addEventListener('DOMContentLoaded', function(){
   botones.forEach(function(b){ b.addEventListener('click', function(){ abierto ? cerrar() : abrir(); }); });
   modal.querySelectorAll('[data-nm-close]').forEach(function(el){ el.addEventListener('click', cerrar); });
   modal.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', cerrar); });
+  window.addEventListener('keydown', function(e){ if(e.key === 'Escape') cerrar(); });
+})();
+
+/* ==================================================================
+   MENÚ TELÉFONO: elegir entre llamar o escribir por WhatsApp
+================================================================== */
+(function(){
+  var TEL = '+34663959442';
+  var WA = 'https://wa.me/34663959442';
+
+  var pop = document.createElement('div');
+  pop.className = 'phone-pop';
+  pop.innerHTML =
+    '<a href="tel:' + TEL + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>Llamar</a>' +
+    '<a class="wa" href="' + WA + '" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.36 7.56L3 20l1.06-5.4A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8.5 10.5c.3 2 2.2 3.9 4.2 4.2"/></svg>WhatsApp</a>';
+  document.body.appendChild(pop);
+
+  var trigger = null;
+  function ubicar(el){
+    var r = el.getBoundingClientRect();
+    var rect = pop.getBoundingClientRect();
+    var top = r.bottom + 10;
+    if(top + rect.height > window.innerHeight - 8) top = r.top - rect.height - 10;
+    var left = Math.min(Math.max(8, r.left), window.innerWidth - rect.width - 8);
+    pop.style.top = top + 'px';
+    pop.style.left = left + 'px';
+  }
+  function abrir(el){
+    trigger = el;
+    pop.classList.add('open');
+    ubicar(el);
+  }
+  function cerrar(){
+    trigger = null;
+    pop.classList.remove('open');
+  }
+
+  document.querySelectorAll('.phone-trigger').forEach(function(el){
+    el.addEventListener('click', function(e){
+      e.preventDefault();
+      if(pop.classList.contains('open') && trigger === el){ cerrar(); return; }
+      abrir(el);
+    });
+  });
+  document.addEventListener('click', function(e){
+    if(!pop.classList.contains('open')) return;
+    if(pop.contains(e.target) || (trigger && trigger.contains(e.target))) return;
+    cerrar();
+  });
+  window.addEventListener('scroll', cerrar, {passive:true});
+  window.addEventListener('resize', cerrar);
   window.addEventListener('keydown', function(e){ if(e.key === 'Escape') cerrar(); });
 })();
 
